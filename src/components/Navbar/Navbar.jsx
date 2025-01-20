@@ -1,7 +1,7 @@
 import "./Navbar.css";
 import rocket from "../../assets/rocket.png";
-import star from "../../assets/glowing-star.png";
-import idButton from "../../assets/id-button.png";
+import star from "../../assets/shopping-bag.png";
+import idButton from "../../assets/login.png";
 import memo from "../../assets/memo.png";
 import order from "../../assets/package.png";
 import lock from "../../assets/locked.png";
@@ -16,7 +16,7 @@ const Navbar = () => {
           <input
             type="text"
             className="navbar_search"
-            placeholder="제품 찾기..."
+            placeholder="검색어를 입력하세요"
           />
           <button type="submit" className="search_button">
             검색하기
