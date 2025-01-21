@@ -1,4 +1,5 @@
 import "./App.css";
+import LoginPage from "./components/Authentication/LoginPage";
 import CartPage from "./components/Cart/CartPage";
 import MyOrderPage from "./components/MyOrder/MyOrderPage";
 import Navbar from "./components/Navbar/Navbar";
@@ -12,7 +13,8 @@ function App() {
       {/* <ProductsPage /> */}
       {/* <SingleProductPage /> */}
       {/* <CartPage /> */}
-      <MyOrderPage />
+      {/* <MyOrderPage /> */}
+      <LoginPage />
     </div>
   );
 }
