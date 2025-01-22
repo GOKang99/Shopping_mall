@@ -3,6 +3,7 @@ import "./SingleProductPage.css";
 import QuantityInput from "./QuantityInput";
 import { data, useParams } from "react-router-dom";
 import useData from "../../assets/Hook/useData";
+import Loader from "../Common/Loader";
 
 const SingleProductPage = () => {
   const [selectedImage, setSelectedImage] = useState(0);
@@ -13,6 +14,7 @@ const SingleProductPage = () => {
   return (
     <section className="align_center single_product">
       {error && <em className="form_error">{error}</em>}
+      {isLoading && <Loader />}
       {product._id && (
         <>
           <div className="align_center">
