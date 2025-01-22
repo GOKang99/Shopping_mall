@@ -2,10 +2,29 @@ import ProductCard from "./ProductCard";
 import "./ProductsList.css";
 import useData from "../../assets/Hook/useData";
 import ProductCardSkeleton from "./ProductCardSkeleton";
+import { useSearchParams } from "react-router-dom";
 
 const ProducstsList = () => {
-  const { data, error, isLoading } = useData("/products");
+  const [search, setSearch] = useSearchParams(); //요청 주소 뒤의 쿼리스트링
+  const category = search.get("category"); //카테고리 값을 가져옴
+  const page = search.get("page");
+  const { data, error, isLoading } = useData(
+    "/products",
+    {
+      params: {
+        category,
+        page,
+      },
+    },
+    [category, page]
+  );
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8];
+
+  const handlePageChange = (page) => {
+    //카테고리가 있음녀
+    const currentParams = Object.fromEntries([...search]);
+    setSearch({ ...currentParams, page: page });
+  };
   return (
     <section className="products_list_section">
       <header className="align_center products_list_header">
@@ -34,6 +53,7 @@ const ProducstsList = () => {
               stock={p.stock}
             />
           ))}
+        <button onClick={() => handlePageChange(2)}>2페이지</button>
       </div>
     </section>
   );
