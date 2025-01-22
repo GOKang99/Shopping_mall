@@ -63,7 +63,8 @@
   margin-left: 5px;
 }
 
-.active {
+.navbar_links .active {
   font-size: 25px;
+
   border-radius: 15px;
 }
