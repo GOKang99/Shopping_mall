@@ -19,6 +19,7 @@ const SignupPage = () => {
   const submitData = async (formData) => {
     try {
       await singup(formData, profilePic);
+      window.location = "/"; //로그인 후 홈페이지로
     } catch (error) {
       setFormError(error.response.data.message);
     }
