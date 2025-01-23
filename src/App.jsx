@@ -6,6 +6,7 @@ import { jwtDecode } from "jwt-decode";
 
 function App() {
   const [user, setUser] = useState(null);
+  const [cart, setCart] = useState([]); //장바구니
   useEffect(() => {
     try {
       const jwt = localStorage.getItem("token");
@@ -17,11 +18,11 @@ function App() {
         setUser(jwtUser);
       }
     } catch (error) {} //토큰이 없을경우 아무 처리 x
-  });
+  }, []);
 
   return (
     <div className="app">
-      <Navbar />
+      <Navbar user={user} cartCount={cart.length} />
       <main>
         <Routing />
       </main>
