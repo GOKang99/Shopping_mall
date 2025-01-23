@@ -3,10 +3,25 @@ import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import Routing from "./components/Routing/Routing";
 import { jwtDecode } from "jwt-decode";
-
+import setAuthToken from "./utils/setAuthToken";
+//만약 토큰이 있으면 axios 설정에 추가됨
+setAuthToken(localStorage.getItem("token"));
 function App() {
   const [user, setUser] = useState(null);
-  const [cart, setCart] = useState([]); //장바구니
+  const [cart, setCart] = useState([]); //장바구니 //장바구니 담는 걸 앱에서 관리하니 앱에서 장바구니 담는 함수 만들어야 함
+  const addToCart = (product, quantity) => {
+    const UpdatedCart = [...cart]; //장바구니 복사
+    const productIndex = UpdatedCart.findIndex(
+      (item) => item.product._id === product._id
+    );
+    if (productIndex === -1) {
+      UpdatedCart.push({ product: product, quantity: quantity });
+    } else {
+      UpdatedCart[productIndex].quantity += quantity;
+      alert("이미 추가 된 항목입니다,");
+    }
+    setCart(UpdatedCart);
+  };
   useEffect(() => {
     try {
       const jwt = localStorage.getItem("token");
@@ -24,7 +39,7 @@ function App() {
     <div className="app">
       <Navbar user={user} cartCount={cart.length} />
       <main>
-        <Routing />
+        <Routing addToCart={addToCart} />
       </main>
     </div>
   );
