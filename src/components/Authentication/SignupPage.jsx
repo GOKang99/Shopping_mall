@@ -2,18 +2,29 @@ import "./SignupPage.css";
 import user from "../../assets/user.webp";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { singup } from "../Services/userService";
 
 const SignupPage = () => {
   const [profilePic, setProfilePic] = useState(null);
+  const [formError, setFormError] = useState("");
   console.log(profilePic);
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    reset,
     watch,
+    formState: { errors },
   } = useForm();
 
-  const submitData = (formData) => console.log(formData);
+  const submitData = async (formData) => {
+    try {
+      await singup(formData, profilePic);
+    } catch (error) {
+      setFormError(error.response.data.message);
+    }
+
+    reset();
+  };
 
   return (
     <section className="align_center form_page">
@@ -135,7 +146,7 @@ const SignupPage = () => {
             )}
           </div>
         </div>
-
+        {formError && <em className="form_error">{formError}</em>}
         <button className="search_button form_submit" type="submit">
           Submit
         </button>
