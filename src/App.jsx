@@ -97,7 +97,7 @@ function App() {
     <UserContext.Provider value={user}>
       {/* 장바구니 항목 전역변수 선언 */}
       <CartContext.Provider
-        value={{ cart, addToCart, removeFromCart, updateCart }}
+        value={{ cart, addToCart, removeFromCart, updateCart, setCart }}
       >
         <div className="app">
           <Navbar user={user} cartCount={cart.length} />
