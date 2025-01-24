@@ -4,8 +4,10 @@ import Table from "../Common/Table";
 import QuantityInput from "../SingleProduct/QuantityInput";
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../contexts/UserContext";
+import CartContext from "../contexts/CartContext";
 
-const CartPage = ({ cart }) => {
+const CartPage = () => {
+  const { cart, addToCart, removeFromCart } = useContext(CartContext);
   const [subTotal, setSubTotal] = useState(0);
 
   //useContext로 UserContext가져오기
@@ -46,6 +48,7 @@ const CartPage = ({ cart }) => {
               <td>{(quantity * product.price).toLocaleString("ko-KR")}원</td>
               <td>
                 <img
+                  onClick={() => removeFromCart(product._id)}
                   src={remove}
                   alt="remove icon"
                   className="cart_remove_icon"

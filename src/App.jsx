@@ -7,6 +7,7 @@ import setAuthToken from "./utils/setAuthToken";
 import { addToCartAPI, getCartAPI } from "./components/Services/cartServices";
 import { ToastContainer, toast } from "react-toastify";
 import UserContext from "./components/contexts/UserContext";
+import CartContext from "./components/contexts/CartContext";
 
 //만약 토큰이 있으면 axios 설정에 추가됨
 
@@ -31,6 +32,14 @@ function App() {
     addToCartAPI(product._id, quantity)
       .then((res) => toast.success("상품 추가 성공!"))
       .catch((err) => toast.error("상품 추가에 실패했습니다."));
+  };
+
+  //카트 수정하기
+  const removeFromCart = (id) => {
+    const oldCart = [...cart]; //카트 복사
+    //
+    const newCart = oldCart.filter((item) => item.product._id !== id);
+    setCart(newCart);
   };
 
   //서버에서 장바구니 정보 가져옴
@@ -58,14 +67,18 @@ function App() {
   }, []);
 
   return (
+    // 유저 정보 전역변수 설정
     <UserContext.Provider value={user}>
-      <div className="app">
-        <Navbar user={user} cartCount={cart.length} />
-        <main>
-          <ToastContainer position="bottom-right" />
-          <Routing addToCart={addToCart} cart={cart} />
-        </main>
-      </div>
+      {/* 장바구니 항목 전역변수 선언 */}
+      <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+        <div className="app">
+          <Navbar user={user} cartCount={cart.length} />
+          <main>
+            <ToastContainer position="bottom-right" />
+            <Routing />
+          </main>
+        </div>
+      </CartContext.Provider>
     </UserContext.Provider>
   );
 }
