@@ -6,6 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import { addToCartAPI, getCartAPI } from "./components/Services/cartServices";
 import { ToastContainer, toast } from "react-toastify";
+import UserContext from "./components/contexts/UserContext";
 
 //만약 토큰이 있으면 axios 설정에 추가됨
 
@@ -35,7 +36,7 @@ function App() {
   //서버에서 장바구니 정보 가져옴
   const getCart = () => {
     getCartAPI()
-      .then((res) => console.log(res))
+      .then((res) => setCart(res.data))
       .catch((err) => toast.error("카트 정보 가져오기 실패"));
   };
 
@@ -57,13 +58,15 @@ function App() {
   }, []);
 
   return (
-    <div className="app">
-      <Navbar user={user} cartCount={cart.length} />
-      <main>
-        <ToastContainer position="bottom-right" />
-        <Routing addToCart={addToCart} cart={cart} />
-      </main>
-    </div>
+    <UserContext.Provider value={user}>
+      <div className="app">
+        <Navbar user={user} cartCount={cart.length} />
+        <main>
+          <ToastContainer position="bottom-right" />
+          <Routing addToCart={addToCart} cart={cart} />
+        </main>
+      </div>
+    </UserContext.Provider>
   );
 }
 
