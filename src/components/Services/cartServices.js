@@ -15,3 +15,12 @@ export function getCartAPI() {
 export function removeFromCartAPI(id) {
   return apiClient.patch(`/cart/remove/${id}`);
 }
+
+//수량1증가
+export function increaseProductAPI(id) {
+  return apiClient.patch(`/cart/increase/${id}`);
+}
+//수량 1감소
+export function decreaseProductAPI(id) {
+  return apiClient.patch(`/cart/decrease/${id}`);
+}

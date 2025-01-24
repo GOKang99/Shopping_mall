@@ -52,6 +52,7 @@ const SingleProductPage = () => {
                 quantity={quantity}
                 setQuantity={setQuantity}
                 stock={product.stock}
+                cartPage={false}
               />
             </div>
 

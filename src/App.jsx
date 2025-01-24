@@ -6,7 +6,9 @@ import { jwtDecode } from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import {
   addToCartAPI,
+  decreaseProductAPI,
   getCartAPI,
+  increaseProductAPI,
   removeFromCartAPI,
 } from "./components/Services/cartServices";
 import { ToastContainer, toast } from "react-toastify";
@@ -33,6 +35,7 @@ function App() {
     }
     setCart(UpdatedCart);
 
+    //상품 추가 API
     addToCartAPI(product._id, quantity)
       .then((res) => toast.success("상품 추가 성공!"))
       .catch((err) => toast.error("상품 추가에 실패했습니다."));
@@ -44,9 +47,25 @@ function App() {
     //
     const newCart = oldCart.filter((item) => item.product._id !== id);
     setCart(newCart);
+
     removeFromCartAPI(id).catch((err) =>
       toast.error("장바구니 상품 삭제 에러")
     );
+  };
+
+  const updateCart = (type, id) => {
+    const updatedCart = [...cart]; //카트복사
+    const i = updatedCart.findIndex((item) => item.product._id === id);
+    if (type === "increase") {
+      updatedCart[i].quantity += 1; //그 상품에 수량 1 증가
+      setCart(updatedCart);
+      increaseProductAPI(id).catch((err) => toast.error("상품 증가 에러"));
+    }
+    if (type === "decrease") {
+      updatedCart[i].quantity -= 1; //그 상품에 수량 1 감소
+      setCart(updatedCart);
+      decreaseProductAPI.catch((err) => toast.error("상품 감소 에러"));
+    }
   };
 
   //서버에서 장바구니 정보 가져옴
@@ -77,7 +96,9 @@ function App() {
     // 유저 정보 전역변수 설정
     <UserContext.Provider value={user}>
       {/* 장바구니 항목 전역변수 선언 */}
-      <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+      <CartContext.Provider
+        value={{ cart, addToCart, removeFromCart, updateCart }}
+      >
         <div className="app">
           <Navbar user={user} cartCount={cart.length} />
           <main>
