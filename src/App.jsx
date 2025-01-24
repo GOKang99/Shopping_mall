@@ -4,7 +4,11 @@ import Navbar from "./components/Navbar/Navbar";
 import Routing from "./components/Routing/Routing";
 import { jwtDecode } from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
-import { addToCartAPI, getCartAPI } from "./components/Services/cartServices";
+import {
+  addToCartAPI,
+  getCartAPI,
+  removeFromCartAPI,
+} from "./components/Services/cartServices";
 import { ToastContainer, toast } from "react-toastify";
 import UserContext from "./components/contexts/UserContext";
 import CartContext from "./components/contexts/CartContext";
@@ -40,6 +44,9 @@ function App() {
     //
     const newCart = oldCart.filter((item) => item.product._id !== id);
     setCart(newCart);
+    removeFromCartAPI(id).catch((err) =>
+      toast.error("장바구니 상품 삭제 에러")
+    );
   };
 
   //서버에서 장바구니 정보 가져옴
